@@ -18,8 +18,7 @@ import com.szakdolgozat.enums.RoleName;
 @Entity
 @Table(name = "roles")
 public class Role {
-
-//Values	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private short id;
@@ -28,11 +27,9 @@ public class Role {
 	@Column(length = 20)
 	private RoleName roleName;
 	
-//Relations	
 	@OneToMany(mappedBy="role")
     private List<User> users;
 	
-//Getters and setters
 	public Role() {
 	}
 

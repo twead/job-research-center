@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "types")
 public class Type {
 
-//Values
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -24,11 +23,9 @@ public class Type {
 	@Column(length = 40)
 	private String typeName;
 	
-//Relations	
 	@OneToMany(mappedBy="type")
     private List<Job> jobs;
 	
-//Getters and Setters
 	public int getId() {
 		return id;
 	}

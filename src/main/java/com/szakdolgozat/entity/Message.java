@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "messages")
 public class Message {
 
-//Values
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,14 +24,12 @@ public class Message {
 	@NotNull
 	private Date dateOfSending;
 	
-//Relations
 	@ManyToOne
 	private User user;
 	
 	@ManyToOne
 	private Employee employee;
 	
-//Getters and Setters
 	public Long getId() {
 		return id;
 	}

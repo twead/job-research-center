@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 public class User {
 
-//Values
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,7 +43,6 @@ public class User {
 	@Column(length = 16)
 	private String resetPasswordCode;
 
-//Relations
 	@ManyToOne
 	private Role role;
 	
@@ -57,7 +55,6 @@ public class User {
 	@OneToMany(mappedBy="user")
     private List<Message> messages;
 
-//Getters and setters
 	public Long getId() {
 		return id;
 	}

@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "employees")
 public class Employee {
 
-//Values
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,7 +26,6 @@ public class Employee {
 	@Column(length = 255)
 	private String picture;
 
-//Relations
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private User user;
 	
@@ -37,7 +35,6 @@ public class Employee {
 	@OneToMany(mappedBy="employee")
     private List<Message> messages;
 	
-//Getters and setters	
 	public Long getId() {
 		return id;
 	}

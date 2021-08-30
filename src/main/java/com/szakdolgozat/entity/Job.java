@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "jobs")
 public class Job {
 
-//Values
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,7 +35,6 @@ public class Job {
 	@NotNull
 	private Date dateOfUpload;
 	
-//Relations
 	@ManyToOne
 	private Employee employee;
 	
@@ -46,7 +44,6 @@ public class Job {
 	@OneToMany(mappedBy="job")
     private List<Application> applications;
 	
-//Getters and Setters
 	public Long getId() {
 		return id;
 	}
