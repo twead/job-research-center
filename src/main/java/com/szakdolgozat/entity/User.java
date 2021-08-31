@@ -16,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -32,9 +35,8 @@ public class User {
 	@NotNull
 	@Column(length = 50)
 	private String name;
-	@NotNull
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	private Date dateOfBorn;
-	@NotNull
 	@Column(length = 20)
 	private String phoneNumber;
 	private boolean isEnabled;
@@ -54,7 +56,19 @@ public class User {
 	
 	@OneToMany(mappedBy="user")
     private List<Message> messages;
-
+	
+	public User() {
+		
+	}
+	
+	public User(String email, String password, String name, Date dateOfBorn, String phoneNumber) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.dateOfBorn=dateOfBorn;
+		this.phoneNumber = phoneNumber;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -109,9 +123,11 @@ public class User {
 	public void setResetPasswordCode(String resetPasswordCode) {
 		this.resetPasswordCode = resetPasswordCode;
 	}
-	
-	
-	
-	
-	
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+		
 }
