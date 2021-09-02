@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.szakdolgozat.dto.LoginUser;
 import com.szakdolgozat.dto.NewUser;
+import com.szakdolgozat.entity.Employer;
 import com.szakdolgozat.entity.Role;
 import com.szakdolgozat.entity.User;
 import com.szakdolgozat.enums.RoleName;
@@ -25,9 +26,9 @@ public class RegistrationService {
 	private PasswordEncoder passwordEncoder;
 	private RoleService roleService;
 	private UserService userService;
-	private AuthenticationManager authenticationManager;	
-	private JwtProvider jwtProvider;			
-	
+	private AuthenticationManager authenticationManager;
+	private JwtProvider jwtProvider;
+
 	@Autowired
 	public RegistrationService(PasswordEncoder passwordEncoder, RoleService roleService, UserService userService,
 			AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
@@ -37,57 +38,61 @@ public class RegistrationService {
 		this.authenticationManager = authenticationManager;
 		this.jwtProvider = jwtProvider;
 	}
-	
-	public JwtDto setAuthenticationAndToken (LoginUser loginUser) {
-			
-			User user = userService.findUserByEmail(loginUser.getEmail()).orElseThrow(
-					() -> new ApiRequestException("Hibás felhasználónév vagy jelszó!"));
-			
-			Authentication authentication;
-			try {
+
+	public JwtDto setAuthenticationAndToken(LoginUser loginUser) {
+
+		User user = userService.findUserByEmail(loginUser.getEmail())
+				.orElseThrow(() -> new ApiRequestException("Hibás felhasználónév vagy jelszó!"));
+
+		Authentication authentication;
+		try {
 			authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword())
-				);
-			}
-			catch(Exception e) {
-				throw new ApiRequestException("Hibás felhasználónév vagy jelszó!");
-			}
-			
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String jwt = jwtProvider.generateToken(authentication);
-			JwtDto jwtDto = new JwtDto(jwt);
-			return jwtDto;
+					new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
+		} catch (Exception e) {
+			throw new ApiRequestException("Hibás felhasználónév vagy jelszó!");
 		}
-	
-	public void SaveUserAndRole(NewUser newUser) {
-		
-		if(userService.existsUserByEmail(newUser.getEmail()))
-			throw new ApiRequestException("Az email cím foglalt!");		
-		
-		User user = new User(
-				newUser.getEmail(),
-				passwordEncoder.encode(newUser.getPassword()),
-				newUser.getName(),
-				newUser.getDateOfBorn(),
-				newUser.getPhoneNumber()
-				);
-		
-		user.setActivation(generatedKey());
-		
-		Role role;
-		role=roleService.getByRoleName(RoleName.ROLE_EMPLOYEE).get();
-		if(newUser.getRole().toString().contains("employer")) {	
-			role=roleService.getByRoleName(RoleName.ROLE_EMPLOYER).get();
-		}
-		if(newUser.getRole().toString().contains("admin")) {	
-			role= roleService.getByRoleName(RoleName.ROLE_ADMIN).get();
-		}
-	
-		user.setRole(role);
-		userService.saveUser(user);
-		
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtProvider.generateToken(authentication);
+		JwtDto jwtDto = new JwtDto(jwt);
+		return jwtDto;
 	}
-	
+
+	public void SaveUserAndRole(NewUser newUser) {
+
+		if (userService.existsUserByEmail(newUser.getEmail()))
+			throw new ApiRequestException("Az email cím foglalt!");
+
+		Role role = roleService.getByRoleName(RoleName.ROLE_EMPLOYEE).get();
+
+		User user = new User(newUser.getEmail(), passwordEncoder.encode(newUser.getPassword()), newUser.getName(),
+				newUser.getDateOfBorn(), newUser.getPhoneNumber());
+
+		user.setActivation(generatedKey());
+		user.setRole(role);
+
+		if (newUser.getIsEmployer()) {
+			saveIfEmployer(user);
+		} else
+			userService.saveUser(user);
+
+	}
+
+	private void saveIfEmployer(User user) {
+
+		Role role = roleService.getByRoleName(RoleName.ROLE_EMPLOYER).get();
+		user.setRole(role);
+
+		Employer employer = new Employer();
+		user.setEmployer(employer);
+
+		employer.setValidated(false);
+		employer.setUser(user);
+
+		userService.saveUser(user);
+
+	}
+
 	private String generatedKey() {
 		Random random = new Random();
 		char[] code = new char[16];
@@ -96,14 +101,14 @@ public class RegistrationService {
 		}
 		return new String(code);
 	}
-	
+
 	public void userActivation(String code) {
-		User user = userService.userActivation(code).orElseThrow(
-				() -> new ApiRequestException("Nem sikerült aktiválni az email címet!"));
-		
+		User user = userService.userActivation(code)
+				.orElseThrow(() -> new ApiRequestException("Nem sikerült aktiválni az email címet!"));
+
 		user.setEnabled(true);
 		user.setActivation("");
 		userService.saveUser(user);
 	}
-	
+
 }

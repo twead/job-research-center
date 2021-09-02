@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.sun.istack.Nullable;
 
 public class NewUser {
 
@@ -20,6 +21,7 @@ public class NewUser {
 	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	private Date dateOfBorn;
 	private String phoneNumber;
+	private boolean isEmployer;
 	
 	public String getEmail() {
 		return email;
@@ -57,5 +59,12 @@ public class NewUser {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public boolean getIsEmployer() {
+		return isEmployer;
+	}
+	public void setIsEmployer(boolean isEmployer) {
+		this.isEmployer = isEmployer;
+	}
+	
 	
 }

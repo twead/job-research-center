@@ -28,7 +28,7 @@ public class Message {
 	private User user;
 	
 	@ManyToOne
-	private Employee employee;
+	private Employer employer;
 	
 	public Long getId() {
 		return id;

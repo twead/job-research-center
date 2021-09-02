@@ -36,7 +36,7 @@ public class Job {
 	private Date dateOfUpload;
 	
 	@ManyToOne
-	private Employee employee;
+	private Employer employer;
 	
 	@ManyToOne
 	private Type type;
