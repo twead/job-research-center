@@ -15,8 +15,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "employees")
-public class Employee {
+@Table(name = "employers")
+public class Employer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +26,27 @@ public class Employee {
 	@Column(length = 255)
 	private String picture;
 
+	public Employer() {}
+	public Employer(Boolean validated) {
+		this.validated = validated;
+	}
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private User user;
 	
-	@OneToMany(mappedBy="employee")
+	@OneToMany(mappedBy="employer")
     private List<Job> jobs;
 	
-	@OneToMany(mappedBy="employee")
+	@OneToMany(mappedBy="employer")
     private List<Message> messages;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	
 	public Long getId() {
 		return id;

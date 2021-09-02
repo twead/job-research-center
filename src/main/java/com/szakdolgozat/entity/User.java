@@ -47,87 +47,114 @@ public class User {
 
 	@ManyToOne
 	private Role role;
-	
+
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-	private Employee employee;
-	
-	@OneToMany(mappedBy="user")
-    private List<Application> applications;
-	
-	@OneToMany(mappedBy="user")
-    private List<Message> messages;
-	
+	private Employer employer;
+
+	@OneToMany(mappedBy = "user")
+	private List<Application> applications;
+
+	@OneToMany(mappedBy = "user")
+	private List<Message> messages;
+
 	public User() {
-		
+
 	}
-	
+
 	public User(String email, String password, String name, Date dateOfBorn, String phoneNumber) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
-		this.dateOfBorn=dateOfBorn;
+		this.dateOfBorn = dateOfBorn;
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public Date getDateOfBorn() {
 		return dateOfBorn;
 	}
+
 	public void setDateOfBorn(Date dateOfBorn) {
 		this.dateOfBorn = dateOfBorn;
 	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
 	public boolean isEnabled() {
 		return isEnabled;
 	}
+
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
+
 	public String getActivation() {
 		return activation;
 	}
+
 	public void setActivation(String activation) {
 		this.activation = activation;
 	}
+
 	public String getResetPasswordCode() {
 		return resetPasswordCode;
 	}
+
 	public void setResetPasswordCode(String resetPasswordCode) {
 		this.resetPasswordCode = resetPasswordCode;
 	}
+
 	public Role getRole() {
 		return role;
 	}
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
-		
+
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
+	}
+
 }
