@@ -2,7 +2,10 @@ package com.szakdolgozat.service;
 
 import java.util.Random;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,15 +31,17 @@ public class RegistrationService {
 	private UserService userService;
 	private AuthenticationManager authenticationManager;
 	private JwtProvider jwtProvider;
+	private EmailService emailService;
 
 	@Autowired
 	public RegistrationService(PasswordEncoder passwordEncoder, RoleService roleService, UserService userService,
-			AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+			AuthenticationManager authenticationManager, JwtProvider jwtProvider, EmailService emailService) {
 		this.passwordEncoder = passwordEncoder;
 		this.roleService = roleService;
 		this.userService = userService;
 		this.authenticationManager = authenticationManager;
 		this.jwtProvider = jwtProvider;
+		this.emailService=emailService;
 	}
 
 	public JwtDto setAuthenticationAndToken(LoginUser loginUser) {
@@ -58,7 +63,7 @@ public class RegistrationService {
 		return jwtDto;
 	}
 
-	public void SaveUserAndRole(NewUser newUser) {
+	public void SaveUserAndRole(NewUser newUser){
 
 		if (userService.existsUserByEmail(newUser.getEmail()))
 			throw new ApiRequestException("Az email cím foglalt!");
@@ -73,8 +78,11 @@ public class RegistrationService {
 
 		if (newUser.getIsEmployer()) {
 			saveIfEmployer(user);
-		} else
+			emailService.sendEmailVerificationToUserOrEmployer(user, true);
+		} else {
 			userService.saveUser(user);
+			emailService.sendEmailVerificationToUserOrEmployer(user, false);
+		}
 
 	}
 
