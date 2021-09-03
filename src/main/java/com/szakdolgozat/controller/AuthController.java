@@ -1,5 +1,7 @@
 package com.szakdolgozat.controller;
 
+import java.text.ParseException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,13 @@ public class AuthController {
 	public ResponseEntity activation(@PathVariable("code") String code) {
 		registrationService.userActivation(code);
 		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@PostMapping("/refresh")
+	public ResponseEntity<JwtDto> refresh(@RequestBody JwtDto jwtDto) throws ParseException {
+		String token = jwtProvider.refreshToken(jwtDto);
+		JwtDto jwt = new JwtDto(token);
+		return new ResponseEntity(jwt, HttpStatus.OK);
 	}
 	
 	
