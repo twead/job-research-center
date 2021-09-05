@@ -12,7 +12,7 @@ import com.szakdolgozat.security.entity.UserPrincipal;
 
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
-	
+
 	private UserService userService;
 
 	@Autowired

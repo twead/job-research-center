@@ -9,6 +9,6 @@ import com.szakdolgozat.entity.Role;
 import com.szakdolgozat.enums.RoleName;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Short>{
+public interface RoleRepository extends JpaRepository<Role, Short> {
 	Optional<Role> findByRoleName(RoleName roleName);
 }

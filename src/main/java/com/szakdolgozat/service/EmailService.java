@@ -60,4 +60,29 @@ public class EmailService {
 
 	}
 
+	public void sendForgotPasswordEmail(User user) {
+		String subject = "Elfelejtett jelszó!";
+		String senderName = "Szakdolgozat";
+		String mailContent = "<h1 text-align='center'>Kedves " + user.getName() + "!</h1>";
+		mailContent += " Jelszavadat az alábbi linken tudod megváltoztatni:" + Url + "#/reset-password/"
+				+ user.getResetPasswordCode() + "<br>";
+		mailContent += "Amennyiben nem te használtad az elfelejtett jelszó funkciót.......!!!!";
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		try {
+			helper.setFrom(mailUsername, senderName);
+			helper.setTo(user.getEmail());
+			helper.setSubject(subject);
+			helper.setText(mailContent, true);
+		} catch (UnsupportedEncodingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		} catch (MessagingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		}
+
+		javaMailSender.send(message);
+
+	}
+
 }

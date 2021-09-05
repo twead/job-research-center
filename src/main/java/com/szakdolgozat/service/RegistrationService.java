@@ -41,7 +41,7 @@ public class RegistrationService {
 		this.userService = userService;
 		this.authenticationManager = authenticationManager;
 		this.jwtProvider = jwtProvider;
-		this.emailService=emailService;
+		this.emailService = emailService;
 	}
 
 	public JwtDto setAuthenticationAndToken(LoginUser loginUser) {
@@ -63,7 +63,7 @@ public class RegistrationService {
 		return jwtDto;
 	}
 
-	public void SaveUserAndRole(NewUser newUser){
+	public void SaveUserAndRole(NewUser newUser) {
 
 		if (userService.existsUserByEmail(newUser.getEmail()))
 			throw new ApiRequestException("Az email cím foglalt!");
@@ -116,6 +116,30 @@ public class RegistrationService {
 
 		user.setEnabled(true);
 		user.setActivation("");
+		userService.saveUser(user);
+	}
+
+	public User findUserByEmail(String email) {
+		return userService.findUserByEmail(email).get();
+	}
+
+	public void sendForgotPasswordMessage(User user) {
+		user.setResetPasswordCode(generatedKey());
+		userService.saveUser(user);
+		emailService.sendForgotPasswordEmail(user);
+	}
+
+	public User findUserByResetPasswordCode(String code) {
+		return userService.findUserByResetPasswordCode(code);
+	}
+
+	public User findUserById(Long id) {
+		return userService.findUserById(id).get();
+	}
+
+	public void updateForgotPassword(User user, String newPassword) {
+		user.setPassword(passwordEncoder.encode(newPassword));
+		user.setResetPasswordCode("");
 		userService.saveUser(user);
 	}
 

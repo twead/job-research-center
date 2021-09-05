@@ -13,15 +13,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Component
-public class JwtEntryPoint implements AuthenticationEntryPoint{
+public class JwtEntryPoint implements AuthenticationEntryPoint {
 
 	private final static Logger logger = (Logger) LoggerFactory.getLogger(JwtEntryPoint.class);
-	
+
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		
+
 		logger.error("fail in start method");
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");
-	}	
+	}
 }
