@@ -2,7 +2,10 @@ package com.szakdolgozat.service;
 
 import java.util.Random;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,15 +31,17 @@ public class RegistrationService {
 	private UserService userService;
 	private AuthenticationManager authenticationManager;
 	private JwtProvider jwtProvider;
+	private EmailService emailService;
 
 	@Autowired
 	public RegistrationService(PasswordEncoder passwordEncoder, RoleService roleService, UserService userService,
-			AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+			AuthenticationManager authenticationManager, JwtProvider jwtProvider, EmailService emailService) {
 		this.passwordEncoder = passwordEncoder;
 		this.roleService = roleService;
 		this.userService = userService;
 		this.authenticationManager = authenticationManager;
 		this.jwtProvider = jwtProvider;
+		this.emailService = emailService;
 	}
 
 	public JwtDto setAuthenticationAndToken(LoginUser loginUser) {
@@ -73,8 +78,11 @@ public class RegistrationService {
 
 		if (newUser.getIsEmployer()) {
 			saveIfEmployer(user);
-		} else
+			emailService.sendEmailVerificationToUserOrEmployer(user, true);
+		} else {
 			userService.saveUser(user);
+			emailService.sendEmailVerificationToUserOrEmployer(user, false);
+		}
 
 	}
 
@@ -108,6 +116,30 @@ public class RegistrationService {
 
 		user.setEnabled(true);
 		user.setActivation("");
+		userService.saveUser(user);
+	}
+
+	public User findUserByEmail(String email) {
+		return userService.findUserByEmail(email).get();
+	}
+
+	public void sendForgotPasswordMessage(User user) {
+		user.setResetPasswordCode(generatedKey());
+		userService.saveUser(user);
+		emailService.sendForgotPasswordEmail(user);
+	}
+
+	public User findUserByResetPasswordCode(String code) {
+		return userService.findUserByResetPasswordCode(code);
+	}
+
+	public User findUserById(Long id) {
+		return userService.findUserById(id).get();
+	}
+
+	public void updateForgotPassword(User user, String newPassword) {
+		user.setPassword(passwordEncoder.encode(newPassword));
+		user.setResetPasswordCode("");
 		userService.saveUser(user);
 	}
 

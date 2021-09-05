@@ -23,11 +23,11 @@ import com.szakdolgozat.security.service.UserDetailsServiceImp;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsServiceImp userDetailsService;
-	
+
 	@Autowired
 	private JwtEntryPoint jwtEntryPoint;
 
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public JwtTokenFilter jwtTokenFilter() {
 		return new JwtTokenFilter();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
-	
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -57,20 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		return super.authenticationManager();
 	}
 
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.cors().and().csrf().disable()
-			.authorizeRequests()
-			.antMatchers("**/auth/**").permitAll()
-			.anyRequest().permitAll()
-			.and()
-			.exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
-			.and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);		
-		http
-			.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers("**/auth/**").permitAll().anyRequest()
+				.permitAll().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-	
+
 }
