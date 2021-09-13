@@ -1,5 +1,6 @@
 package com.szakdolgozat.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,11 +18,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +50,8 @@ public class User {
 	@ManyToOne
 	private Role role;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonIgnoreProperties("user")
 	private Employer employer;
 
 	@OneToMany(mappedBy = "user")
