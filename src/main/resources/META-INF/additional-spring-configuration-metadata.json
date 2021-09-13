@@ -1,0 +1,29 @@
+{
+	"properties": [
+		{
+			"name": "jwt.secret",
+			"type": "java.lang.String",
+			"description": "JWT Token Key"
+		},
+		{
+			"name": "jwt.expiration",
+			"type": "java.lang.String",
+			"description": "JWT Token validation time"
+		},
+		{
+			"name": "url",
+			"type": "java.lang.String",
+			"description": "Frontend URL"
+		},
+		{
+			"name": "firebase.config.location",
+			"type": "java.lang.String",
+			"description": "Firebase config file location"
+		},
+		{
+			"name": "firebase.bucket.name",
+			"type": "java.lang.String",
+			"description": "Firebase bucket name"
+		}
+	]
+}

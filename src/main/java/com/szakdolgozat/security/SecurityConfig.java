@@ -25,6 +25,7 @@ import com.szakdolgozat.security.service.UserDetailsServiceImp;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
 	@Autowired
 	private UserDetailsServiceImp userDetailsService;
 
@@ -64,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 	}
+	
 
 }
