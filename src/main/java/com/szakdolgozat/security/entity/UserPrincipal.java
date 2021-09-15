@@ -14,6 +14,8 @@ import com.szakdolgozat.entity.User;
 
 public class UserPrincipal implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
+
 	private String email;
 	private String password;
 	private boolean isEnabled;
@@ -34,7 +36,7 @@ public class UserPrincipal implements UserDetails {
 
 		List<GrantedAuthority> authorities = roleList.stream()
 				.map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
-		return new UserPrincipal(user.getEmail(), user.getPassword(), authorities, user.isEnabled());
+		return new UserPrincipal(user.getEmail(), user.getPassword(), authorities, user.getIsEnabled());
 	}
 
 	@Override

@@ -66,7 +66,34 @@ public class EmailService {
 		String mailContent = "<h1 text-align='center'>Kedves " + user.getName() + "!</h1>";
 		mailContent += " Jelszavadat az alábbi linken tudod megváltoztatni:" + Url + "#/reset-password/"
 				+ user.getResetPasswordCode() + "<br>";
-		mailContent += "Amennyiben nem te használtad az elfelejtett jelszó funkciót.......!!!!";
+		mailContent += "Amennyiben nem te használtad az elfelejtett jelszó funkciót, ezt az emailt hagyd figyelmen kívül!";
+		mailContent += "<br>Üdvözlettel: <strong>Job Research Center</strong>";
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		try {
+			helper.setFrom(mailUsername, senderName);
+			helper.setTo(user.getEmail());
+			helper.setSubject(subject);
+			helper.setText(mailContent, true);
+		} catch (UnsupportedEncodingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		} catch (MessagingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		}
+
+		javaMailSender.send(message);
+
+	}
+
+	public void sendEmailVerificationToEmployerAboutValidation(User user) {
+		String subject = "Jelentkezésed elfogadva!";
+		String senderName = "Szakdolgozat";
+		String mailContent = "<h1 text-align='center'>Kedves " + user.getName() + "!</h1>";
+		mailContent += " Személyazonosságod ellenőrizve lett, álláshirdetői kérelmedet elfogadtuk.";
+		mailContent += "<br>Mostantól lehetőséged lesz állásokat meghirdetni, illetve a jelentkezéseket kezelni.";
+		mailContent += "<br>Itt tudsz belépni: " + Url + "#/login";
+		mailContent += "<br>Üdvözlettel: <strong>Job Research Center</strong>";
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 

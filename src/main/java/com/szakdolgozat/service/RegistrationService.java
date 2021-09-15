@@ -11,8 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.szakdolgozat.dto.LoginUser;
-import com.szakdolgozat.dto.NewUser;
+import com.szakdolgozat.dto.LoginUserDto;
+import com.szakdolgozat.dto.NewUserDto;
 import com.szakdolgozat.entity.Employer;
 import com.szakdolgozat.entity.Role;
 import com.szakdolgozat.entity.User;
@@ -42,15 +42,15 @@ public class RegistrationService {
 		this.emailService = emailService;
 	}
 
-	public JwtDto setAuthenticationAndToken(LoginUser loginUser) {
+	public JwtDto setAuthenticationAndToken(LoginUserDto loginUserDto) {
 
-		User user = userService.findUserByEmail(loginUser.getEmail())
+		User user = userService.findUserByEmail(loginUserDto.getEmail())
 				.orElseThrow(() -> new ApiRequestException("Hibás felhasználónév vagy jelszó!"));
 
 		Authentication authentication;
 		try {
 			authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
+					new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassword()));
 		} catch (Exception e) {
 			throw new ApiRequestException("Hibás felhasználónév vagy jelszó!");
 		}
@@ -61,20 +61,20 @@ public class RegistrationService {
 		return jwtDto;
 	}
 
-	public void SaveUserAndRole(NewUser newUser) {
+	public void SaveUserAndRole(NewUserDto newUserDto) {
 
-		if (userService.existsUserByEmail(newUser.getEmail()))
+		if (userService.existsUserByEmail(newUserDto.getEmail()))
 			throw new ApiRequestException("Az email cím foglalt!");
 
 		Role role = roleService.getByRoleName(RoleName.ROLE_EMPLOYEE).get();
 
-		User user = new User(newUser.getEmail(), passwordEncoder.encode(newUser.getPassword()), newUser.getName(),
-				newUser.getDateOfBorn(), newUser.getPhoneNumber());
+		User user = new User(newUserDto.getEmail(), passwordEncoder.encode(newUserDto.getPassword()), newUserDto.getName(),
+				newUserDto.getDateOfBorn(), newUserDto.getPhoneNumber());
 
 		user.setActivation(generatedKey());
 		user.setRole(role);
 
-		if (newUser.getIsEmployer()) {
+		if (newUserDto.getIsEmployer()) {
 			saveIfEmployer(user);
 			emailService.sendEmailVerificationToUserOrEmployer(user, true);
 		} else {
