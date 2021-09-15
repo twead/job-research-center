@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.szakdolgozat.dto.ForgotPasswordDto;
-import com.szakdolgozat.dto.LoginUser;
-import com.szakdolgozat.dto.NewUser;
+import com.szakdolgozat.dto.LoginUserDto;
+import com.szakdolgozat.dto.NewUserDto;
 import com.szakdolgozat.dto.UpdatePasswordDto;
 import com.szakdolgozat.entity.User;
 import com.szakdolgozat.security.dto.JwtDto;
@@ -41,14 +41,14 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser) {
-		JwtDto jwtDto = registrationService.setAuthenticationAndToken(loginUser);
+	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
+		JwtDto jwtDto = registrationService.setAuthenticationAndToken(loginUserDto);
 		return new ResponseEntity(jwtDto, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/registration", produces = { MimeTypeUtils.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> addUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
-		registrationService.SaveUserAndRole(newUser);
+	public ResponseEntity<?> addUser(@Valid @RequestBody NewUserDto newUserDto, BindingResult bindingResult) {
+		registrationService.SaveUserAndRole(newUserDto);
 		return new ResponseEntity(HttpStatus.CREATED);
 	}
 

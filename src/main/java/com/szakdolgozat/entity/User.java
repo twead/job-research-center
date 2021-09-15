@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @Table(name = "users")
 public class User implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -120,7 +121,7 @@ public class User implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public boolean isEnabled() {
+	public boolean getIsEnabled() {
 		return isEnabled;
 	}
 

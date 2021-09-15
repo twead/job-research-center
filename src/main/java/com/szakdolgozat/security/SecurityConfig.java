@@ -25,7 +25,6 @@ import com.szakdolgozat.security.service.UserDetailsServiceImp;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
 	@Autowired
 	private UserDetailsServiceImp userDetailsService;
 
@@ -61,12 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers("**/auth/**").permitAll()
-				.antMatchers("**/api/profile/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_EMPLOYER").anyRequest()
-				.permitAll().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
+				.antMatchers("**/api/profile/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_EMPLOYER")
+				.antMatchers("**/api/dashboard/**").hasAuthority("ROLE_ADMIN").anyRequest().permitAll().and()
+				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}
-	
 
 }

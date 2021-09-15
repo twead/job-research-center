@@ -2,7 +2,7 @@ package com.szakdolgozat.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginUser {
+public class LoginUserDto {
 
 	@NotBlank
 	private String email;

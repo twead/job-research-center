@@ -7,9 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.sun.istack.Nullable;
 
-public class NewUser {
+public class NewUserDto {
 
 	@Email
 	private String email;

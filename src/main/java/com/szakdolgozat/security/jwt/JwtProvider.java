@@ -58,15 +58,14 @@ public class JwtProvider {
 			return true;
 
 		} catch (MalformedJwtException e) {
-			logger.error("Token badly formed");
+			logger.error("Token is badly formed!");
 		} catch (UnsupportedJwtException e) {
-			logger.error("Token not supported");
+			logger.error("Token is not supported!");
 		} catch (ExpiredJwtException e) {
-			// logger.error("Token expired");
 		} catch (IllegalArgumentException e) {
-			logger.error("Token is empty");
+			logger.error("Token is empty!");
 		} catch (SignatureException e) {
-			logger.error("Fail at the signature");
+			logger.error("Fail at the signature!");
 		}
 
 		return false;
