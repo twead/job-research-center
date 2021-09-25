@@ -18,8 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
@@ -51,11 +51,12 @@ public class User implements Serializable {
 	@ManyToOne
 	private Role role;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonManagedReference("employerJson")
 	private Employer employer;
 
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference("userJson")
 	private List<Application> applications;
 
 	@OneToMany(mappedBy = "user")
@@ -159,6 +160,22 @@ public class User implements Serializable {
 
 	public void setEmployer(Employer employer) {
 		this.employer = employer;
+	}
+
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
 
 }

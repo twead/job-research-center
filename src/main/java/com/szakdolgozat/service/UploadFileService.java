@@ -36,11 +36,8 @@ public class UploadFileService {
 		try {
 			User user = userService.findUserByEmail(email).get();
 			File file = convertMultipartFileToFile(multipartFile);
-			if (!multipartFile.getContentType().contains("image")) {
-				throw new Exception("A megadott kiterjesztés nem megfelelő!");
-			}
 			fileName = email + "/images/" + multipartFile.getOriginalFilename();
-			this.uploadImageToStorage(file, fileName);
+			this.uploadFileToStorage(file, fileName);
 			user.getEmployer().setPicture(multipartFile.getOriginalFilename());
 			userService.saveUser(user);
 			file.delete();
@@ -50,14 +47,35 @@ public class UploadFileService {
 		return fileName;
 	}
 
-	private void uploadImageToStorage(File file, String fileName) throws IOException {
+	/*public String uploadPDF(String employerEmail, Long advertisementId, String employeeEmail,
+			MultipartFile multipartFile) {
+		String fileName = "";
+		String originalFileName = "";
+		try {
+			User user = userService.findUserByEmail(employerEmail).get();
+			
+			File file = convertMultipartFileToFile(multipartFile);
+			fileName = employerEmail + "/cv/" + "/" + advertisementId + "/" + "/" + employeeEmail + "/"
+					+ multipartFile.getOriginalFilename();
+			originalFileName = multipartFile.getOriginalFilename();*/
+			/*fileName = employerEmail + "/cv/" + "/" + advertisementId + "/" + "/" + employeeEmail + "/"
+					+ file.getName();
+			originalFileName =file.getName();*/
+			/*this.uploadFileToStorage(file, fileName);			
+			file.delete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return originalFileName;
+	}*/
+
+	private void uploadFileToStorage(File file, String fileName) throws IOException {
 
 		InputStream is = UploadFileService.class.getResourceAsStream(firebaseConfigLocation);
 		BlobId blobId = BlobId.of(firebaseBucketName, fileName);
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
 		Credentials credentials = GoogleCredentials.fromStream(is);
-		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build()
-				.getService();
+		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 		storage.create(blobInfo, Files.readAllBytes(file.toPath()));
 	}
 
@@ -70,7 +88,8 @@ public class UploadFileService {
 	}
 
 	public void deleteImageNameFromDatabase(String email) {
-		User user = userService.findUserByEmail(email).orElseThrow(() -> new ApiRequestException("Felhasználó nem található!"));
+		User user = userService.findUserByEmail(email)
+				.orElseThrow(() -> new ApiRequestException("Felhasználó nem található!"));
 		user.getEmployer().setPicture(null);
 		userService.saveUser(user);
 	}

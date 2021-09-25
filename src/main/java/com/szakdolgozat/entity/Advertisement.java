@@ -1,6 +1,6 @@
 package com.szakdolgozat.entity;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -14,15 +14,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.Nullable;
 
 @Entity
-@Table(name = "jobs")
-public class Job {
-
+@Table(name = "advertisements")
+public class Advertisement implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -38,50 +37,27 @@ public class Job {
 	@Nullable
 	@Column(length = 35)
 	private String city;
-
 	@NotNull
 	private Date dateOfUpload;
 
-	public Job(String title, String type, String city, int payment, String description) {
+	@ManyToOne
+	@JsonBackReference("advertisementJson")
+	private Employer employer;
+
+	@OneToMany(mappedBy = "advertisement")
+	@JsonManagedReference("applicationJson")
+	private List<Application> applications;
+
+	public Advertisement() {
+	}
+
+	public Advertisement(String title, String type, String city, int payment, String description) {
 		this.title = title;
 		this.type = type;
 		this.city = city;
 		this.payment = payment;
 		this.description = description;
 	}
-
-	public Job() {
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Employer getEmployer() {
-		return employer;
-	}
-
-	public void setEmployer(Employer employer) {
-		this.employer = employer;
-	}
-
-	public List<Application> getApplications() {
-		return applications;
-	}
-
-	public void setApplications(List<Application> applications) {
-		this.applications = applications;
-	}
-
-	@ManyToOne
-	private Employer employer;
-
-	@OneToMany(mappedBy = "job")
-	private List<Application> applications;
 
 	public Long getId() {
 		return id;
@@ -129,6 +105,30 @@ public class Job {
 
 	public void setDateOfUpload(Date date) {
 		this.dateOfUpload = date;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
+	}
+
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 
 }
