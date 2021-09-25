@@ -37,7 +37,6 @@ public class EmployerController {
 	public ResponseEntity<Boolean> isValidated(@PathVariable(value = "email") String email) {
 		boolean isValidated = employerService.isValidated(email);
 		return new ResponseEntity(isValidated, HttpStatus.OK);
-
 	}
 
 	@PostMapping(path = "/create/{email}")

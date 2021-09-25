@@ -1,7 +1,6 @@
 package com.szakdolgozat.controller;
 
 import java.text.ParseException;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.szakdolgozat.dto.ForgotPasswordDto;
 import com.szakdolgozat.dto.LoginUserDto;
 import com.szakdolgozat.dto.NewUserDto;
+import com.szakdolgozat.dto.NumberOfRecordsDto;
 import com.szakdolgozat.dto.UpdatePasswordDto;
 import com.szakdolgozat.entity.User;
 import com.szakdolgozat.security.dto.JwtDto;
 import com.szakdolgozat.security.jwt.JwtProvider;
+import com.szakdolgozat.service.AdvertisementService;
 import com.szakdolgozat.service.RegistrationService;
 
 @RestController
@@ -32,11 +33,14 @@ import com.szakdolgozat.service.RegistrationService;
 public class AuthController {
 
 	private RegistrationService registrationService;
+	private AdvertisementService advertisementService;
 	private JwtProvider jwtProvider;
 
 	@Autowired
-	public AuthController(RegistrationService registrationService, JwtProvider jwtProvider) {
+	public AuthController(RegistrationService registrationService, AdvertisementService advertisementService,
+			JwtProvider jwtProvider) {
 		this.registrationService = registrationService;
+		this.advertisementService = advertisementService;
 		this.jwtProvider = jwtProvider;
 	}
 
@@ -81,6 +85,12 @@ public class AuthController {
 	public void updatePassword(@PathVariable("code") String code, @RequestBody UpdatePasswordDto updatePasswordDto) {
 		User user = registrationService.findUserByResetPasswordCode(code);
 		registrationService.updateForgotPassword(user, updatePasswordDto.getPassword());
+	}
+
+	@GetMapping("/count")
+	public ResponseEntity<?> getNumberOfRecords() {
+		NumberOfRecordsDto numberOfRecordsDto = advertisementService.getNumberOfRecords();
+		return new ResponseEntity(numberOfRecordsDto, HttpStatus.OK);
 	}
 
 }

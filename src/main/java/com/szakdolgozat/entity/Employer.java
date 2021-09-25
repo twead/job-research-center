@@ -15,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "employers")
 public class Employer implements Serializable {
@@ -35,11 +38,13 @@ public class Employer implements Serializable {
 		this.validated = validated;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonBackReference("employerJson")
 	private User user;
 
 	@OneToMany(mappedBy = "employer")
-	private List<Job> jobs;
+	@JsonManagedReference("advertisementJson")
+	private List<Advertisement> advertisements;
 
 	@OneToMany(mappedBy = "employer")
 	private List<Message> messages;
@@ -76,12 +81,12 @@ public class Employer implements Serializable {
 		this.picture = picture;
 	}
 
-	public List<Job> getJobs() {
-		return jobs;
+	public List<Advertisement> getJobs() {
+		return advertisements;
 	}
 
-	public void setJobs(List<Job> jobs) {
-		this.jobs = jobs;
+	public void setJobs(List<Advertisement> advertisements) {
+		this.advertisements = advertisements;
 	}
 
 	public List<Message> getMessages() {
@@ -91,7 +96,5 @@ public class Employer implements Serializable {
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	
-	
 
 }
