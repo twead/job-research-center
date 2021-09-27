@@ -60,6 +60,7 @@ public class User implements Serializable {
 	private List<Application> applications;
 
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference("messageEmployeeJson")
 	private List<Message> messages;
 
 	public User() {

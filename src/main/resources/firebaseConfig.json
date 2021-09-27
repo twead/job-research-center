@@ -1,12 +1,12 @@
 {
-  "type": "service_account",
-  "project_id": "jobresearchcenter-feb2b",
-  "private_key_id": "c39c6b4f16e8b7e2cf8f13f3bae4ab78d3ece0c4",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCWgskTyA9Aemla\nDlrIdZOW9LPUKfHRhNex4SUkMySRmIzjQ/DUa5Bdo2Cf/T8dlj0VFRoGr/XxiO0Z\nZq7APhvTdPOM7hk6hl9M6v0HqGKAjL4m43VWCTXzAguLn0vjLKo6f+tNQ2NvKJQP\nPAYX/GSTanpfyLS7erkuEfGM3dUUplfcnvrm4hPGvLOT42/ZhrhPdq3hlRaA9nZK\nvz5BfHJO1G/DyMAwEMVA9oApwz2a/JpMf2OTRa8rrJHzuty0SpFar9d3ITPoEThv\nkPOeUT0S6E40ayA2hqpcW2ry5LzgvpJmT62efkRbe3JFqk/WfYzaf4ZM9Cz0scSV\nnBB7gCPXAgMBAAECggEADkIgi2Ox8jFGhrYCaqgczbmryYcZtfgIOP0zuAyyQ6q4\nehUnHPB9sik2j6F9l69yZOtlVknYGkQW9geQuXyIxUz4f5rUwAMXxyEhzFZq0nPC\n1ctJg9eGiVlhv53dIg3KqJUStPST2GV3NURB7YbG/mIhaq6IVJRpM5CWmfov4+9C\n+cN825vyLvYxpHDwgtCXtwXwwmq4eNI5vqT+uJo7kG673Zn8bcV74gHXESQ1/VR9\nZDTWuGzC6y2zG/W4QNuRuwnbfMtJeaQ8h/D7xLjcJVPeOa9xI/aoQcQQJALcCFUo\n4pU6t2bp0B7+ROFdhiyHKaeH423efScHqCsXtfIOUQKBgQDOU+2UDkqfJ/xh7p1j\n5jFgeENwTnB84pbXK5BVIXO8CfYa4ks5r1VtRUSmXOHQ+qvwuZu5BEFdXqjBH9WX\n3x31OTtgA7eJ6g/GcHu7rMYKWBY3cA3D2eOZYZL+BWdIiHER/1r2gWGF3gp0KR0P\noaD4xl6d4WxrIt89tn9C4hnBcQKBgQC6vtWe4PhdDw55KaF2xtvDmbGMcLas5Mru\nByzgB3CiiCZVhtgNjbQUhmqoV1UJ2VefLL5k15GH9sJdp7h67aIaGHEVmMelNkfy\nrgRDRjuPf4FZ2iuj2DPO961b/4ejLbiOXtQBKgiiPlIH08oIigxqlwRp4AvfoXmX\n6d0/CCSVxwKBgQCIj/JSqXboir24UAfqZCTQVilEvxYjApKWDiZ0wjRpBCrZNmhV\n4N/o+AztE9L+z7tYFHGmbtOYqhuF370uzSV19pB/B1bGuJ4CWNb8q+lUVWM3BDqI\nI8JJ9dQlv4vR7UTxhZM+TvoucX13zvKGMxNpNVrQorBw5N7faNgoe6BScQKBgHy3\n4MFoLFcyLA9db1l9O95pcfuCd24Gq0THBABm16Gk3j02fmqm3cLrdqYRFVkrj2pe\nHpYIpkgw0+RqlDl9JUraUgQDcipzkx+PeodXi4WtuTzCCW02gntSTLRpdzPS4DQt\nPte8M+HvTyetGXwUfnBdhXQUTrm/BQ8hAEMNdCmXAoGBAMKCO8zeXtI0Z6Lj3YqX\nCsivdS3xJpl0lkKfDLHu3XaDLVbYJ9C5Bpw1Q2M5XAURU06m2A9WCeLVv/6Cs0pm\nmsl/r+hzxQQf9Wac2dcbNGv1bXKKjJDX5b4AE9i5gs0i8XuhDSh6tOczHciFhzaE\nn1cv8Iqb+iXLRU9a8yzqkQKQ\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-bokd0@jobresearchcenter-feb2b.iam.gserviceaccount.com",
-  "client_id": "106843930497846361282",
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-bokd0%40jobresearchcenter-feb2b.iam.gserviceaccount.com"
+  "client_x509_cert_url": ""
 }

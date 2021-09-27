@@ -47,6 +47,7 @@ public class Employer implements Serializable {
 	private List<Advertisement> advertisements;
 
 	@OneToMany(mappedBy = "employer")
+	@JsonManagedReference("messageEmployerJson")
 	private List<Message> messages;
 
 	public User getUser() {
