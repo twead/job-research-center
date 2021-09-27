@@ -62,7 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers("**/auth/**").permitAll()
 				.antMatchers("**/api/profile/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_EMPLOYER")
 				.antMatchers("**/api/dashboard/**").hasAuthority("ROLE_ADMIN").antMatchers("**/employer/**")
-				.hasAuthority("ROLE_EMPLOYER").antMatchers("**/employee/**").hasAuthority("ROLE_EMPLOYEE").anyRequest()
+				.hasAuthority("ROLE_EMPLOYER").antMatchers("**/employee/**").hasAuthority("ROLE_EMPLOYEE")
+				.antMatchers("**/messages/**").hasAnyAuthority("ROLE_EMPLOYEE", "ROLE_EMPLOYER").anyRequest()
 				.permitAll().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
