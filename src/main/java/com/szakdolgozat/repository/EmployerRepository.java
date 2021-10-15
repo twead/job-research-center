@@ -12,6 +12,8 @@ public interface EmployerRepository extends JpaRepository<Employer, Long> {
 
 	public boolean existsByUserId(Long id);
 
+	public Integer countByValidated(boolean validated);
+
 	@Query(value = "select employers.validated from users join employers on employers.user_id = users.id where users.email = ?1", nativeQuery = true)
 	public boolean isValidated(String email);
 }

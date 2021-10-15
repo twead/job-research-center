@@ -47,6 +47,13 @@ public class User implements Serializable {
 	private String activation;
 	@Column(length = 16)
 	private String resetPasswordCode;
+	private boolean loginVerification;
+	@Column(length = 5)
+	private String loginVerificationCode;
+	@Column(length = 40)
+	private String updateEmail;
+	@Column(length = 16)
+	private String updateEmailVerificationCode;
 
 	@ManyToOne
 	private Role role;
@@ -145,6 +152,38 @@ public class User implements Serializable {
 
 	public void setResetPasswordCode(String resetPasswordCode) {
 		this.resetPasswordCode = resetPasswordCode;
+	}
+
+	public boolean getLoginVerification() {
+		return loginVerification;
+	}
+
+	public void setLoginVerification(boolean loginVerification) {
+		this.loginVerification = loginVerification;
+	}
+
+	public String getLoginVerificationCode() {
+		return loginVerificationCode;
+	}
+
+	public void setLoginVerificationCode(String loginVerificationCode) {
+		this.loginVerificationCode = loginVerificationCode;
+	}
+
+	public String getUpdateEmail() {
+		return updateEmail;
+	}
+
+	public void setUpdateEmail(String updateEmail) {
+		this.updateEmail = updateEmail;
+	}
+
+	public String getUpdateEmailVerificationCode() {
+		return updateEmailVerificationCode;
+	}
+
+	public void setUpdateEmailVerificationCode(String updateEmailVerificationCode) {
+		this.updateEmailVerificationCode = updateEmailVerificationCode;
 	}
 
 	public Role getRole() {

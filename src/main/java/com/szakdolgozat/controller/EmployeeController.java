@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.szakdolgozat.dto.AdvertisementDto;
 import com.szakdolgozat.dto.ApplicationDto;
 import com.szakdolgozat.dto.NewApplicationDto;
+import com.szakdolgozat.dto.RequestDto;
 import com.szakdolgozat.entity.Advertisement;
 import com.szakdolgozat.service.AdvertisementService;
 import com.szakdolgozat.service.ApplicationService;
@@ -64,10 +65,11 @@ public class EmployeeController {
 		return new ResponseEntity(applicationList, HttpStatus.OK);
 	}
 
-	@GetMapping("/details_application/{id}")
-	public ResponseEntity<ApplicationDto> getApplicationDetails(@PathVariable(value = "id") Long applicationId) {
-		ApplicationDto applicationDto = applicationService.getApplicationDetails(applicationId);
+	@PostMapping("/details_application/{email}")
+	public ResponseEntity<ApplicationDto> getApplicationDetails(@PathVariable(value = "email") String email,
+			@RequestBody RequestDto requestDto) {
+		ApplicationDto applicationDto = applicationService.getApplicationDetails(email, requestDto);
 		return new ResponseEntity(applicationDto, HttpStatus.OK);
 	}
-	
+
 }

@@ -26,7 +26,6 @@ public class Message {
 	@NotNull
 	private Date dateOfSending;
 	private Boolean fromEmployer;
-	private Boolean seen;
 
 	@ManyToOne
 	@JsonBackReference("messageEmployeeJson")
@@ -36,10 +35,11 @@ public class Message {
 	@JsonBackReference("messageEmployerJson")
 	private Employer employer;
 
-	public Message() {}
-	
+	public Message() {
+	}
+
 	public Message(String message) {
-		this.message=message;
+		this.message = message;
 	}
 
 	public Long getId() {
@@ -72,14 +72,6 @@ public class Message {
 
 	public void setFromEmployer(Boolean fromEmployer) {
 		this.fromEmployer = fromEmployer;
-	}
-
-	public Boolean getSeen() {
-		return seen;
-	}
-
-	public void setSeen(Boolean seen) {
-		this.seen = seen;
 	}
 
 	public User getUser() {

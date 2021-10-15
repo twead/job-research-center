@@ -42,9 +42,8 @@ public class MessageService {
 				.orElseThrow(() -> new ApiRequestException("Nem létezik a felhasználó!"));
 
 		message.setDateOfSending(new Date());
-		message.setSeen(false);
 
-		if (!newMessageDto.isEmployer()) {
+		if (!newMessageDto.getIsEmployer()) {
 			message.setUser(sender);
 			message.setEmployer(receiver.getEmployer());
 			message.setFromEmployer(false);
@@ -74,10 +73,10 @@ public class MessageService {
 				.orElseThrow(() -> new ApiRequestException("Nem létezik a felhasználó!"));
 
 		if (!messageRequest.getIsEmployer()) {
-			messages = messageRepository.findAllByUserIdAndEmployerId(requester.getId(),
+			messages = messageRepository.findAllByUserIdAndEmployerIdOrderByDateOfSendingDesc(requester.getId(),
 					otherPerson.getEmployer().getId());
 		} else {
-			messages = messageRepository.findAllByUserIdAndEmployerId(otherPerson.getId(),
+			messages = messageRepository.findAllByUserIdAndEmployerIdOrderByDateOfSendingDesc(otherPerson.getId(),
 					requester.getEmployer().getId());
 		}
 		message.setMessages(messages);

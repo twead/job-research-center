@@ -28,7 +28,9 @@ public class Application {
 	private String pdf;
 	@NotNull
 	private Date dateOfApplication;
-	
+	@NotNull
+	private boolean available;
+
 	@ManyToOne
 	@JsonBackReference("userJson")
 	private User user;
@@ -71,6 +73,14 @@ public class Application {
 
 	public void setDateOfApplication(Date dateOfApplication) {
 		this.dateOfApplication = dateOfApplication;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 	public User getUser() {

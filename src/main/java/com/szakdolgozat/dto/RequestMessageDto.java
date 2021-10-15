@@ -4,7 +4,7 @@ public class RequestMessageDto {
 
 	private Long id;
 	private Boolean isEmployer;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -21,5 +21,4 @@ public class RequestMessageDto {
 		this.isEmployer = isEmployer;
 	}
 
-	
 }

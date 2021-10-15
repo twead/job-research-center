@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.szakdolgozat.dto.ForgotPasswordDto;
 import com.szakdolgozat.dto.LoginUserDto;
+import com.szakdolgozat.dto.LoginVerificationDto;
 import com.szakdolgozat.dto.NewUserDto;
 import com.szakdolgozat.dto.NumberOfRecordsDto;
 import com.szakdolgozat.dto.UpdatePasswordDto;
@@ -45,8 +46,18 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUserDto loginUserDto) {
-		JwtDto jwtDto = registrationService.setAuthenticationAndToken(loginUserDto);
+	public ResponseEntity<?> login(@Valid @RequestBody LoginUserDto loginUserDto) {
+		LoginVerificationDto verificationDto = registrationService.login(loginUserDto);
+		if (verificationDto.getEmail() == null) {
+			JwtDto jwtDto = registrationService.setAuthenticationAndTokenWithoutVerification(loginUserDto);
+			return new ResponseEntity(jwtDto, HttpStatus.OK);
+		} else
+			return new ResponseEntity(verificationDto, HttpStatus.OK);
+	}
+
+	@PostMapping("/login_with_verification")
+	public ResponseEntity<?> loginWithVerification(@Valid @RequestBody LoginVerificationDto verificationDto) {
+		JwtDto jwtDto = registrationService.setAuthenticationAndTokenWithVerification(verificationDto);
 		return new ResponseEntity(jwtDto, HttpStatus.OK);
 	}
 

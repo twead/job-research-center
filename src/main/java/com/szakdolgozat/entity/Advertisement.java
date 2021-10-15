@@ -39,6 +39,8 @@ public class Advertisement implements Serializable {
 	private String city;
 	@NotNull
 	private Date dateOfUpload;
+	@NotNull
+	private boolean available;
 
 	@ManyToOne
 	@JsonBackReference("advertisementJson")
@@ -113,6 +115,14 @@ public class Advertisement implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 	public Employer getEmployer() {

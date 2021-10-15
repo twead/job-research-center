@@ -48,7 +48,7 @@ public class MessageController {
 		MessageDto messageDto = messageService.getMessages(email, messageRequest);
 		return new ResponseEntity(messageDto, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping(path = "/all_message/{email}")
 	public ResponseEntity<?> getAllMyMessage(@PathVariable(value = "email") String email,
 			@Valid @RequestBody RequestMessageDto messageRequest, BindingResult bindingResult) {

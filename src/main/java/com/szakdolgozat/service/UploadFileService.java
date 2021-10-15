@@ -36,7 +36,7 @@ public class UploadFileService {
 		try {
 			User user = userService.findUserByEmail(email).get();
 			File file = convertMultipartFileToFile(multipartFile);
-			fileName = email + "/images/" + multipartFile.getOriginalFilename();
+			fileName = user.getId() + "/images/" + multipartFile.getOriginalFilename();
 			this.uploadFileToStorage(file, fileName);
 			user.getEmployer().setPicture(multipartFile.getOriginalFilename());
 			userService.saveUser(user);
@@ -46,28 +46,6 @@ public class UploadFileService {
 		}
 		return fileName;
 	}
-
-	/*public String uploadPDF(String employerEmail, Long advertisementId, String employeeEmail,
-			MultipartFile multipartFile) {
-		String fileName = "";
-		String originalFileName = "";
-		try {
-			User user = userService.findUserByEmail(employerEmail).get();
-			
-			File file = convertMultipartFileToFile(multipartFile);
-			fileName = employerEmail + "/cv/" + "/" + advertisementId + "/" + "/" + employeeEmail + "/"
-					+ multipartFile.getOriginalFilename();
-			originalFileName = multipartFile.getOriginalFilename();*/
-			/*fileName = employerEmail + "/cv/" + "/" + advertisementId + "/" + "/" + employeeEmail + "/"
-					+ file.getName();
-			originalFileName =file.getName();*/
-			/*this.uploadFileToStorage(file, fileName);			
-			file.delete();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return originalFileName;
-	}*/
 
 	private void uploadFileToStorage(File file, String fileName) throws IOException {
 

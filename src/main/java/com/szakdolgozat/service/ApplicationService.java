@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.szakdolgozat.dto.ApplicationAndEmployeeDto;
 import com.szakdolgozat.dto.ApplicationDto;
 import com.szakdolgozat.dto.NewApplicationDto;
+import com.szakdolgozat.dto.RequestDto;
 import com.szakdolgozat.entity.Advertisement;
 import com.szakdolgozat.entity.Application;
 import com.szakdolgozat.entity.User;
@@ -46,6 +48,7 @@ public class ApplicationService {
 		application.setComment(newApplicationDto.getComment());
 		application.setDateOfApplication(new Date());
 		application.setPdf(newApplicationDto.getPdfName());
+		application.setAvailable(true);
 
 		application.setAdvertisement(advertisement);
 		application.setUser(employee);
@@ -73,18 +76,59 @@ public class ApplicationService {
 		return applications;
 	}
 
-	public ApplicationDto getApplicationDetails(Long id) {
+	public ApplicationDto getApplicationDetails(String email, RequestDto requestDto) {
 		ApplicationDto applicationDto = new ApplicationDto();
 
-		Application application = applicationRepository.findById(id)
+		User user = userService.findUserByEmail(email)
+				.orElseThrow(() -> new ApiRequestException("A keresett felhasználó nem található"));
+
+		Application application = applicationRepository.findByIdAndUserId(requestDto.getId(), user.getId())
 				.orElseThrow(() -> new ApiRequestException("A keresett állásjelentkezés nem található"));
+
 		applicationDto.setApplication(application);
 		applicationDto.setAdvertisement(application.getAdvertisement());
 
 		Long employerId = applicationDto.getAdvertisement().getEmployer().getId();
-		User user = userRepository.findByEmployerId(employerId);
-		applicationDto.setUser(user);
+		User employer = userRepository.findByEmployerId(employerId);
+		applicationDto.setUser(employer);
 		return applicationDto;
+	}
+
+	public List<ApplicationAndEmployeeDto> getAllApplicationAndEmployee(Long advertisementId) {
+		List<ApplicationAndEmployeeDto> applicationAndEmployee = new ArrayList<>();
+		List<Application> applications = applicationRepository.findAllByAdvertisementId(advertisementId);
+
+		applications.forEach(application -> {
+			ApplicationAndEmployeeDto currentDto = new ApplicationAndEmployeeDto();
+			currentDto.setApplication(application);
+			currentDto.setUser(application.getUser());
+			applicationAndEmployee.add(currentDto);
+		});
+		return applicationAndEmployee;
+	}
+
+	public ApplicationAndEmployeeDto getApplicationAndEmployeeDetails(String email, RequestDto requestDto) {
+		ApplicationAndEmployeeDto applicationAndEmployee = new ApplicationAndEmployeeDto();
+		Application application = applicationRepository.findById(requestDto.getId())
+				.orElseThrow(() -> new ApiRequestException("A keresett állásjelentkezés nem található"));
+		;
+		User employer = application.getAdvertisement().getEmployer().getUser();
+
+		if (employer.getEmail().equals(email)) {
+			applicationAndEmployee.setUser(application.getUser());
+			applicationAndEmployee.setEmployer(employer);
+			applicationAndEmployee.setAdvertisement(application.getAdvertisement());
+			applicationAndEmployee.setApplication(application);
+		} else
+			throw new ApiRequestException("Nincs megfelelő jogosultság a megtekintéséhez!");
+		return applicationAndEmployee;
+	}
+
+	public void deleteApplicationById(Long id) {
+		Application application = applicationRepository.findById(id)
+				.orElseThrow(() -> new ApiRequestException("A keresett állásjelentkezés nem található"));
+		application.setAvailable(false);
+		applicationRepository.save(application);
 	}
 
 }

@@ -22,7 +22,7 @@ public class NewMessageDto {
 		this.message = message;
 	}
 
-	public boolean isEmployer() {
+	public boolean getIsEmployer() {
 		return isEmployer;
 	}
 
