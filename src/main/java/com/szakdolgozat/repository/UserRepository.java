@@ -22,7 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByResetPasswordCode(String code);
 
-	@Query(value = "select * from users join roles on roles.id = role_id where roles.role_name = ?1 and users.is_enabled = ?2", nativeQuery = true)
+	@Query(value = "select * from users join roles on roles.id = role_id where roles.role_name = ?1 "
+			+ "and users.is_enabled = ?2", nativeQuery = true)
 	List<User> findAllByRoleAndIsEnabled(String role, boolean isEnabled);
 
 }

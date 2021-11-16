@@ -115,7 +115,6 @@ public class AdvertisementService {
 		Advertisement advertisement = advertisementRepository.findById(id)
 				.orElseThrow(() -> new ApiRequestException("A keresett álláshirdetés nem található"));
 		applications = applicationRepository.findAllByAdvertisementId(advertisement.getId());
-		applicationRepository.deleteAll(applications);
 		advertisement.setAvailable(false);
 		advertisementRepository.save(advertisement);
 	}

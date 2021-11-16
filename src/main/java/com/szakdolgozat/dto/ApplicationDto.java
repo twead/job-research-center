@@ -9,6 +9,7 @@ public class ApplicationDto {
 	private Application application;
 	private Advertisement advertisement;
 	private User user;
+	private Long employeeId;
 
 	public Application getApplication() {
 		return application;
@@ -32,6 +33,14 @@ public class ApplicationDto {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
 	}
 
 }

@@ -48,6 +48,7 @@ public class ApplicationService {
 		application.setComment(newApplicationDto.getComment());
 		application.setDateOfApplication(new Date());
 		application.setPdf(newApplicationDto.getPdfName());
+		application.setKey(newApplicationDto.getKey());
 		application.setAvailable(true);
 
 		application.setAdvertisement(advertisement);
@@ -91,6 +92,8 @@ public class ApplicationService {
 		Long employerId = applicationDto.getAdvertisement().getEmployer().getId();
 		User employer = userRepository.findByEmployerId(employerId);
 		applicationDto.setUser(employer);
+		applicationDto.setEmployeeId(user.getId());
+		System.out.println(applicationDto.getEmployeeId());
 		return applicationDto;
 	}
 

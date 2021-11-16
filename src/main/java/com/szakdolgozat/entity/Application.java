@@ -26,6 +26,8 @@ public class Application {
 	private String comment;
 	@Column(length = 255)
 	private String pdf;
+	@Column(length = 16)
+	private String key;
 	@NotNull
 	private Date dateOfApplication;
 	@NotNull
@@ -65,6 +67,14 @@ public class Application {
 
 	public void setPdf(String pdf) {
 		this.pdf = pdf;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public Date getDateOfApplication() {
