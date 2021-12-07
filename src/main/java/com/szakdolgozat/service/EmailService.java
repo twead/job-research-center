@@ -60,6 +60,33 @@ public class EmailService {
 
 	}
 
+	public void sendEmailUpdateVerification(User user) {
+		String subject = "Email cím módosítás kérelem!";
+		String senderName = "Szakdolgozat";
+
+		String mailContent = "<h1 text-align='center'>Kedves " + user.getName() + "!</h1>";
+		mailContent += " Amennyiben szeretnéd megváltoztatni az email címedet, az alábbi linken teheted meg: ";
+		mailContent += Url + "#/update_email_activation/" + user.getUpdateEmailVerificationCode();
+		mailContent += "<br>Üdvözlettel: <strong>Job Research Center</strong>";
+
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		try {
+			helper.setFrom(mailUsername, senderName);
+			helper.setTo(user.getUpdateEmail());
+			helper.setSubject(subject);
+			helper.setText(mailContent, true);
+		} catch (UnsupportedEncodingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		} catch (MessagingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		}
+
+		javaMailSender.send(message);
+
+	}
+
 	public void sendForgotPasswordEmail(User user) {
 		String subject = "Elfelejtett jelszó!";
 		String senderName = "Szakdolgozat";
@@ -67,6 +94,32 @@ public class EmailService {
 		mailContent += " Jelszavadat az alábbi linken tudod megváltoztatni:" + Url + "#/reset-password/"
 				+ user.getResetPasswordCode() + "<br>";
 		mailContent += "Amennyiben nem te használtad az elfelejtett jelszó funkciót, ezt az emailt hagyd figyelmen kívül!";
+		mailContent += "<br>Üdvözlettel: <strong>Job Research Center</strong>";
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		try {
+			helper.setFrom(mailUsername, senderName);
+			helper.setTo(user.getEmail());
+			helper.setSubject(subject);
+			helper.setText(mailContent, true);
+		} catch (UnsupportedEncodingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		} catch (MessagingException e) {
+			throw new ApiRequestException("Az email küldés nem sikerült");
+		}
+
+		javaMailSender.send(message);
+
+	}
+
+	public void sendLoginVerificationToUser(User user) {
+		String subject = "Bejelentkezés megerősítése";
+		String senderName = "Szakdolgozat";
+		String mailContent = "<h1 text-align='center'>Kedves " + user.getName() + "!</h1>";
+		mailContent += "Bejelentkezéskor az alábbi egyszeri kóddal tudsz belépni: <b>"
+				+ user.getLoginVerificationCode().toUpperCase() + "</b> <br>";
+		mailContent += "Amennyiben nem szeretnél kétlépcsős azonosítást, a profilodnál bármikor ki tudod kapcsolni.";
 		mailContent += "<br>Üdvözlettel: <strong>Job Research Center</strong>";
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);

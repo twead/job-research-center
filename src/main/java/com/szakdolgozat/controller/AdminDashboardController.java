@@ -52,7 +52,7 @@ public class AdminDashboardController {
 		List<User> employerList = employerService.findAllUserByRole("ROLE_EMPLOYER");
 		return employerList;
 	}
-	
+
 	@GetMapping("/user/details/{id}")
 	public ResponseEntity<?> getUserDetailsById(@PathVariable(value = "id") Long userId) {
 		User user = userService.findUserById(userId)
@@ -67,9 +67,15 @@ public class AdminDashboardController {
 		return new ResponseEntity(user, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/user/delete/{id}")
-	public ResponseEntity deleteUser(@PathVariable(value = "id") Long userId) {
-		userService.deleteUserById(userId);
+	@DeleteMapping("/employee/delete/{id}")
+	public ResponseEntity deleteEmployee(@PathVariable(value = "id") Long userId) {
+		userService.deleteEmployeeById(userId);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+
+	@DeleteMapping("/employer/delete/{id}")
+	public ResponseEntity deleteEmployer(@PathVariable(value = "id") Long userId) {
+		userService.deleteEmployerById(userId);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 

@@ -18,8 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
@@ -47,18 +47,27 @@ public class User implements Serializable {
 	private String activation;
 	@Column(length = 16)
 	private String resetPasswordCode;
+	private boolean loginVerification;
+	@Column(length = 5)
+	private String loginVerificationCode;
+	@Column(length = 40)
+	private String updateEmail;
+	@Column(length = 16)
+	private String updateEmailVerificationCode;
 
 	@ManyToOne
 	private Role role;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-	@JsonIgnoreProperties("user")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonManagedReference("employerJson")
 	private Employer employer;
 
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference("userJson")
 	private List<Application> applications;
 
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference("messageEmployeeJson")
 	private List<Message> messages;
 
 	public User() {
@@ -145,6 +154,38 @@ public class User implements Serializable {
 		this.resetPasswordCode = resetPasswordCode;
 	}
 
+	public boolean getLoginVerification() {
+		return loginVerification;
+	}
+
+	public void setLoginVerification(boolean loginVerification) {
+		this.loginVerification = loginVerification;
+	}
+
+	public String getLoginVerificationCode() {
+		return loginVerificationCode;
+	}
+
+	public void setLoginVerificationCode(String loginVerificationCode) {
+		this.loginVerificationCode = loginVerificationCode;
+	}
+
+	public String getUpdateEmail() {
+		return updateEmail;
+	}
+
+	public void setUpdateEmail(String updateEmail) {
+		this.updateEmail = updateEmail;
+	}
+
+	public String getUpdateEmailVerificationCode() {
+		return updateEmailVerificationCode;
+	}
+
+	public void setUpdateEmailVerificationCode(String updateEmailVerificationCode) {
+		this.updateEmailVerificationCode = updateEmailVerificationCode;
+	}
+
 	public Role getRole() {
 		return role;
 	}
@@ -159,6 +200,22 @@ public class User implements Serializable {
 
 	public void setEmployer(Employer employer) {
 		this.employer = employer;
+	}
+
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
 
 }

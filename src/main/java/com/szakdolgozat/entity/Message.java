@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "messages")
 public class Message {
@@ -23,12 +25,22 @@ public class Message {
 	private String message;
 	@NotNull
 	private Date dateOfSending;
+	private Boolean fromEmployer;
 
 	@ManyToOne
+	@JsonBackReference("messageEmployeeJson")
 	private User user;
 
 	@ManyToOne
+	@JsonBackReference("messageEmployerJson")
 	private Employer employer;
+
+	public Message() {
+	}
+
+	public Message(String message) {
+		this.message = message;
+	}
 
 	public Long getId() {
 		return id;
@@ -52,6 +64,30 @@ public class Message {
 
 	public void setDateOfSending(Date dateOfSending) {
 		this.dateOfSending = dateOfSending;
+	}
+
+	public Boolean getFromEmployer() {
+		return fromEmployer;
+	}
+
+	public void setFromEmployer(Boolean fromEmployer) {
+		this.fromEmployer = fromEmployer;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.szakdolgozat.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,36 +14,52 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "jobs")
-public class Job {
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.Nullable;
 
+@Entity
+@Table(name = "advertisements")
+public class Advertisement implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@Column(length = 40)
 	private String title;
+	@NotNull
+	private String type;
 	private int payment;
 	@NotNull
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	@NotNull
+	@Nullable
 	@Column(length = 35)
 	private String city;
 	@NotNull
-	private Boolean available;
-	@NotNull
 	private Date dateOfUpload;
+	@NotNull
+	private boolean available;
 
 	@ManyToOne
+	@JsonBackReference("advertisementJson")
 	private Employer employer;
 
-	@ManyToOne
-	private Type type;
-
-	@OneToMany(mappedBy = "job")
+	@OneToMany(mappedBy = "advertisement")
+	@JsonManagedReference("applicationJson")
 	private List<Application> applications;
+
+	public Advertisement() {
+	}
+
+	public Advertisement(String title, String type, String city, int payment, String description) {
+		this.title = title;
+		this.type = type;
+		this.city = city;
+		this.payment = payment;
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
@@ -84,20 +101,44 @@ public class Job {
 		this.city = city;
 	}
 
-	public Boolean getAvailable() {
-		return available;
-	}
-
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-
 	public Date getDateOfUpload() {
 		return dateOfUpload;
 	}
 
-	public void setDateOfUpload(Date dateOfUpload) {
-		this.dateOfUpload = dateOfUpload;
+	public void setDateOfUpload(Date date) {
+		this.dateOfUpload = date;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+	public Employer getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(Employer employer) {
+		this.employer = employer;
+	}
+
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 
 }

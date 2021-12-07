@@ -34,4 +34,8 @@ public class EmployerService extends UserService {
 		return employerRepository.existsByUserId(id);
 	}
 
+	public boolean isValidated(String email) {
+		return employerRepository.isValidated(email);
+	}
+
 }
